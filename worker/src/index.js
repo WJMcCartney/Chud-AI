@@ -84,22 +84,35 @@ export default {
       }));
     contents.push({ role: "user", parts: [{ text: message }] });
 
-    const model = env.GEMINI_MODEL || "gemini-flash-latest";
+    // Try each model in order; free-tier models are often briefly overloaded (503) or rate limited (429).
+    const models = (env.GEMINI_MODEL || "gemini-flash-latest")
+      .split(",")
+      .map((m) => m.trim())
+      .filter(Boolean);
     let res;
-    try {
-      res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "x-goog-api-key": env.GEMINI_API_KEY },
-          body: JSON.stringify({
-            systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
-            contents,
-            generationConfig: { temperature: 1.1, maxOutputTokens: 300 },
-          }),
-        }
-      );
-    } catch {
+    for (const model of models) {
+      try {
+        res = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "x-goog-api-key": env.GEMINI_API_KEY },
+            body: JSON.stringify({
+              systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+              contents,
+              generationConfig: { temperature: 1.1, maxOutputTokens: 300 },
+            }),
+          }
+        );
+      } catch {
+        res = null;
+        continue;
+      }
+      if (res.ok || (res.status !== 503 && res.status !== 429)) break;
+      console.log("Gemini model busy, trying next", model, res.status);
+    }
+
+    if (!res) {
       return json({ reply: "my brain server is down. not my fault. probably yours." }, 502, cors);
     }
 
