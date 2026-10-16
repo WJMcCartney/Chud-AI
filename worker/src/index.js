@@ -100,7 +100,8 @@ export default {
             body: JSON.stringify({
               systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
               contents,
-              generationConfig: { temperature: 1.1, maxOutputTokens: 300 },
+              // Newer Gemini models spend part of this budget "thinking", so leave room; the prompt keeps replies short.
+              generationConfig: { temperature: 1.1, maxOutputTokens: 2048 },
             }),
           }
         );
