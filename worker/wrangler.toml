@@ -1,0 +1,13 @@
+name = "lil-chud"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+
+[vars]
+# Any Gemini model name works here, e.g. "gemini-2.5-flash".
+GEMINI_MODEL = "gemini-flash-latest"
+# Set this to your GitHub Pages origin once it's live, e.g. "https://yourname.github.io"
+# "*" lets any website call the worker (fine for local testing).
+ALLOWED_ORIGIN = "*"
+
+# The API key is a secret, NOT a var. Set it with:
+#   npx wrangler secret put GEMINI_API_KEY

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lil Chud</title>
+  <meta name="description" content="Ask Lil Chud anything. He's always wrong and always rude.">
+  <meta property="og:title" content="Lil Chud">
+  <meta property="og:description" content="The AI that's always wrong and always rude.">
+  <link rel="icon" href="chud.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <img src="chud.svg" alt="" class="avatar avatar-lg">
+      <div>
+        <h1>Lil Chud</h1>
+        <p class="status"><span class="dot"></span> online, unfortunately</p>
+      </div>
+    </header>
+
+    <div class="banner">Parody. Every answer is <strong>intentionally wrong</strong>. Do not trust Lil Chud with anything.</div>
+
+    <main id="messages" class="messages" aria-live="polite"></main>
+
+    <div id="starters" class="starters">
+      <button type="button">what's 2 + 2?</button>
+      <button type="button">who built the pyramids?</button>
+      <button type="button">why is the sky blue?</button>
+      <button type="button">are you smart?</button>
+    </div>
+
+    <form id="form" class="composer">
+      <input id="input" type="text" maxlength="500" autocomplete="off" placeholder="Ask Lil Chud something (he'll hate it)" aria-label="Message">
+      <button id="send" type="submit">Send</button>
+    </form>
+
+    <footer class="footer">Lil Chud is a joke bot. Nothing he says is true. For real questions, ask a real person.</footer>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
